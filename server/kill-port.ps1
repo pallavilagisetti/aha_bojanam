@@ -34,3 +34,4 @@ foreach ($port in $Ports) {
 Write-Host "`nDone! You can now start the server." -ForegroundColor Green
 
 
+

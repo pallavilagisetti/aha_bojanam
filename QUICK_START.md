@@ -62,3 +62,4 @@ Frontend will run on `http://localhost:5173` (or similar)
 - Orders require user authentication (Sign In/Sign Up buttons need UI)
 
 
+

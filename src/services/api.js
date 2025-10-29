@@ -75,3 +75,14 @@ export const sendChatMessage = async (message) => {
   return response.data;
 };
 
+// Feedback API
+export const createFeedback = async (feedbackData) => {
+  const response = await api.post('/api/feedback', feedbackData);
+  return response.data;
+};
+
+export const getFeedbacks = async () => {
+  const response = await api.get('/api/feedback');
+  return response.data;
+};
+

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Navbar from '../components/Navbar';
 import { motion } from 'framer-motion';
+import { createFeedback } from '../services/api';
 
 const Feedback = () => {
   const [formData, setFormData] = useState({
@@ -9,16 +10,28 @@ const Feedback = () => {
     rating: '',
     message: '',
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    alert('Thank you for your feedback!');
-    setFormData({
-      name: '',
-      email: '',
-      rating: '',
-      message: '',
-    });
+    setIsSubmitting(true);
+    setMessage('');
+
+    try {
+      await createFeedback(formData);
+      setMessage('Thank you for your feedback!');
+      setFormData({
+        name: '',
+        email: '',
+        rating: '',
+        message: '',
+      });
+    } catch (error) {
+      setMessage(error.response?.data?.message || 'Failed to submit feedback. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -33,6 +46,15 @@ const Feedback = () => {
           <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
             Share Your Feedback
           </h1>
+          {message && (
+            <div className={`mb-4 p-4 rounded-lg ${
+              message.includes('Thank you') 
+                ? 'bg-green-50 text-green-800 border border-green-200' 
+                : 'bg-red-50 text-red-800 border border-red-200'
+            }`}>
+              {message}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-gray-700 font-medium mb-2">
@@ -92,9 +114,10 @@ const Feedback = () => {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               type="submit"
-              className="w-full bg-restaurant-red text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors"
+              disabled={isSubmitting}
+              className="w-full bg-restaurant-red text-white py-3 rounded-lg font-bold hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Submit Feedback
+              {isSubmitting ? 'Submitting...' : 'Submit Feedback'}
             </motion.button>
           </form>
         </motion.div>
