@@ -7,10 +7,12 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:3005',
+        target: 'https://aha-bojanam-backend.onrender.com',
         changeOrigin: true,
+        secure: true,
       }
     }
   }
 })
+
 

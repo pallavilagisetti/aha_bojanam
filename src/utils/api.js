@@ -1,8 +1,7 @@
 import axios from 'axios';
 
-// Use environment variable for API URL, fallback to localhost in development
-const API_URL = import.meta.env.VITE_API_URL || 
-                (import.meta.env.DEV ? 'http://localhost:3005' : '/api');
+// Backend API URL - can be overridden with VITE_API_URL environment variable
+const API_URL = import.meta.env.VITE_API_URL || 'https://aha-bojanam-backend.onrender.com';
 
 // Create axios instance with base URL
 const api = axios.create({
