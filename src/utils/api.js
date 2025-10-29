@@ -1,8 +1,12 @@
 import axios from 'axios';
 
+// Use environment variable for API URL, fallback to localhost in development
+const API_URL = import.meta.env.VITE_API_URL || 
+                (import.meta.env.DEV ? 'http://localhost:3005' : '/api');
+
 // Create axios instance with base URL
 const api = axios.create({
-  baseURL: import.meta.env.DEV ? 'http://localhost:3005' : '',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
@@ -23,4 +27,3 @@ api.interceptors.request.use(
 );
 
 export default api;
-

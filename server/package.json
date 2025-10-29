@@ -10,6 +10,7 @@
     "seed": "node scripts/seedMenu.js",
     "seed-users": "node scripts/seedUsers.js",
     "reset-admin": "node scripts/resetAdmin.js",
+    "test-db": "node scripts/testDB.js",
     "kill-port": "powershell -ExecutionPolicy Bypass -File ./kill-port.ps1",
     "kill-port-bat": "kill-port.bat"
   },

@@ -55,23 +55,25 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 3005;
 
-const server = app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-  console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
-});
+// Only start listening server if not in Vercel serverless environment
+if (process.env.VERCEL !== '1') {
+  const server = app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
+  });
 
-// Handle server errors gracefully
-server.on('error', (err) => {
-  if (err.code === 'EADDRINUSE') {
-    console.error(`\n❌ Port ${PORT} is already in use!`);
-    console.error(`Please stop the process using port ${PORT} or use a different port.`);
-    console.error(`To find and kill the process, run: netstat -ano | findstr :${PORT}\n`);
-    process.exit(1);
-  } else {
-    console.error('Server error:', err);
-    process.exit(1);
-  }
-});
+  // Handle server errors gracefully
+  server.on('error', (err) => {
+    if (err.code === 'EADDRINUSE') {
+      console.error(`\n❌ Port ${PORT} is already in use!`);
+      console.error(`Please stop the process using port ${PORT} or use a different port.`);
+      console.error(`To find and kill the process, run: netstat -ano | findstr :${PORT}\n`);
+      process.exit(1);
+    } else {
+      console.error('Server error:', err);
+      process.exit(1);
+    }
+  });
+}
 
 export default app;
-
